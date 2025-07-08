@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-07-2025 a las 18:33:55
+-- Tiempo de generación: 08-07-2025 a las 07:02:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -151,6 +151,17 @@ CREATE TABLE `contacto` (
   `mensaje` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `contacto`
+--
+
+INSERT INTO `contacto` (`id_mensa`, `nom`, `apellido`, `email`, `mensaje`) VALUES
+(15, 'adrian', 'asasa', 'aasas@gmail.com', 'aaaaaaaaaa'),
+(16, 'adrian', 'sadsa', 'sadsadas@gmail.com', 'asasasasasa'),
+(24, 'Adrian', 'camargo', 'adriancamargo69@gmail.com', 'hola grupito'),
+(25, 'Edwar', 'Gomez ', 'Edwar@gmail.com', 'Necesito una cuenta de administrador'),
+(26, 'eder', 'moyano', 'edermoyano@gmail.com', 'necesito algo');
+
 -- --------------------------------------------------------
 
 --
@@ -178,6 +189,14 @@ CREATE TABLE `correos_enviados_llantas` (
   `tipo_recordatorio` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `correos_enviados_llantas`
+--
+
+INSERT INTO `correos_enviados_llantas` (`id_correo`, `id_llantas`, `email`, `tipo_recordatorio`) VALUES
+(1, 1, 'instructor@gmail.com', '3_dias'),
+(2, 4, 'federico@gmail.com', '3_dias');
+
 -- --------------------------------------------------------
 
 --
@@ -191,6 +210,17 @@ CREATE TABLE `correos_enviados_mantenimiento` (
   `tipo_recordatorio` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `correos_enviados_mantenimiento`
+--
+
+INSERT INTO `correos_enviados_mantenimiento` (`id_correo`, `id_mantenimiento`, `email`, `tipo_recordatorio`) VALUES
+(1, 4, 'adriancamargo69@gmail.com', '1_dia'),
+(2, 5, 'adriancamargo69@gmail.com', '1_dia'),
+(3, 4, 'adriancamargo69@gmail.com', 'hoy'),
+(4, 5, 'adriancamargo69@gmail.com', 'hoy'),
+(5, 6, 'federico@gmail.com', '3_dias');
+
 -- --------------------------------------------------------
 
 --
@@ -203,6 +233,23 @@ CREATE TABLE `correos_enviados_pico_placa` (
   `email` varchar(255) NOT NULL,
   `fecha_envio` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `correos_enviados_pico_placa`
+--
+
+INSERT INTO `correos_enviados_pico_placa` (`id_correos`, `placa`, `email`, `fecha_envio`) VALUES
+(1, 'WQW222', 'milady@gmail.com', '2025-06-30'),
+(2, 'KKK222', 'edwardfaridg@gmail.com', '2025-06-30'),
+(3, 'AAS232', 'instructor@gmail.com', '2025-06-30'),
+(4, 'ASD231', 'instructor@gmail.com', '2025-06-30'),
+(5, 'DAS231', 'instructor@gmail.com', '2025-06-30'),
+(6, 'POP321', 'Carlosgo1822@gmail.com', '2025-06-30'),
+(7, 'KKK333', 'milady@gmail.com', '2025-07-01'),
+(8, 'FIS234', 'Carlosgo1821@gmail.com', '2025-07-01'),
+(9, 'ASD213', 'instructor@gmail.com', '2025-07-01'),
+(10, 'KSK234', 'Carlosgo1822@gmail.com', '2025-07-01'),
+(11, 'MAS297', 'edwardfaridg@gmail.com', '2025-07-03');
 
 -- --------------------------------------------------------
 
@@ -218,6 +265,13 @@ CREATE TABLE `correos_enviados_soat` (
   `fecha_envio` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `correos_enviados_soat`
+--
+
+INSERT INTO `correos_enviados_soat` (`id_correos`, `id_soat`, `email`, `tipo_recordatorio`, `fecha_envio`) VALUES
+(1, 2, 'federico@gmail.com', '3_dia', '2025-07-03 14:33:39');
+
 -- --------------------------------------------------------
 
 --
@@ -230,6 +284,20 @@ CREATE TABLE `correos_enviados_tecno` (
   `email` varchar(255) NOT NULL,
   `tipo_recordatorio` varchar(20) NOT NULL,
   `fecha_envio` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalles_mantenimiento_clasificacion`
+--
+
+CREATE TABLE `detalles_mantenimiento_clasificacion` (
+  `Id_detalles` int(11) NOT NULL,
+  `id_mantenimiento` int(11) NOT NULL,
+  `id_trabajo` int(11) NOT NULL,
+  `cantidad` float NOT NULL,
+  `subtotal` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -254,7 +322,18 @@ CREATE TABLE `empresas` (
 --
 
 INSERT INTO `empresas` (`id_empresa`, `nombre_empresa`, `nit`, `direccion`, `telefono`, `email`, `fecha_registro`, `estado`) VALUES
-(1, 'FlotaX AGC', '900123456-1', 'Calle Principal 123', '3001234567', 'admin@flotaxagc.com', '2025-07-05 15:00:41', 'activa');
+(1, 'FlotaX AGC', '900123456-1', 'Calle Principal 123', '3001234567', 'admin@flotaxagc.com', '2025-07-08 00:25:09', 'activa');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado_multa`
+--
+
+CREATE TABLE `estado_multa` (
+  `id_estado_multa` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -338,6 +417,17 @@ CREATE TABLE `licencias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `licencias`
+--
+
+INSERT INTO `licencias` (`id_documento`, `id_licencia`, `id_categoria`, `fecha_expedicion`, `fecha_vencimiento`, `id_servicio`, `observaciones`) VALUES
+('1109491416', 3, 3, '2025-06-15', '2025-06-25', 1, NULL),
+('9876543210', 6, 4, '2025-06-11', '2035-06-11', 1, ''),
+('9876543210', 7, 5, '2022-06-29', '2025-06-25', 1, ''),
+('1110174530', 9, 5, '2022-07-11', '2025-07-05', 1, 'hola senor alex'),
+('1109491416', 10, 3, '2024-07-17', '2034-07-17', 1, '');
+
+--
 -- Disparadores `licencias`
 --
 DELIMITER $$
@@ -378,6 +468,13 @@ CREATE TABLE `licencia_log` (
   `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `licencia_log`
+--
+
+INSERT INTO `licencia_log` (`id_log`, `documento_usuario`, `id_categoria`, `fecha_expedicion`, `fecha_vencimiento`, `id_servicio`, `observaciones`, `fecha_registro`) VALUES
+(1, '1109491416', 3, '2024-07-17', '2034-07-17', 1, '', '2025-07-03 02:15:28');
+
 -- --------------------------------------------------------
 
 --
@@ -396,6 +493,16 @@ CREATE TABLE `llantas` (
   `proximo_cambio_fecha` date DEFAULT NULL,
   `notas` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `llantas`
+--
+
+INSERT INTO `llantas` (`id_llanta`, `placa`, `estado`, `ultimo_cambio`, `fecha_registro`, `presion_llantas`, `kilometraje_actual`, `proximo_cambio_km`, `proximo_cambio_fecha`, `notas`) VALUES
+(1, 'GAS900', 'Malo', '2025-06-11', '2025-06-11 13:14:33', 30.0, 12345, 1233, '2025-07-05', 'cambios'),
+(2, 'KKK222', 'Bueno', '2025-06-15', '2025-06-15 14:22:23', 23.0, 234422, 33, '2030-11-15', 'Nuevas'),
+(4, 'CAR333', 'Regular', '2024-06-13', '2025-07-02 00:41:44', 10.2, 654231, 6546, '2025-07-05', 'Depierta senor alex'),
+(5, 'MOM202', 'Bueno', '2025-07-02', '2025-07-03 02:16:52', 30.0, 5000000, 50000, '2026-07-02', 'Nuevas');
 
 --
 -- Disparadores `llantas`
@@ -456,41 +563,12 @@ CREATE TABLE `llantas_log` (
   `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `logs_sistema`
+-- Volcado de datos para la tabla `llantas_log`
 --
 
-CREATE TABLE `logs_sistema` (
-  `id` int(11) NOT NULL,
-  `usuario` varchar(100) DEFAULT NULL,
-  `accion` varchar(255) DEFAULT NULL,
-  `descripcion` text DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
-  `ip_address` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `logs_sistema`
---
-
-INSERT INTO `logs_sistema` (`id`, `usuario`, `accion`, `descripcion`, `fecha`, `ip_address`) VALUES
-(1, '1109491416', 'Licencia creada', 'Nueva licencia creada para SENA', '2025-07-05 14:26:46', '::1'),
-(1109491416, 'Edwar Farid Gomez Sanchez', 'creada', 'Nueva licencia creada para SENA', '2025-07-05 16:04:15', NULL);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `log_accesos_superadmin`
---
-
-CREATE TABLE `log_accesos_superadmin` (
-  `id` int(11) NOT NULL,
-  `documento` varchar(20) NOT NULL,
-  `fecha_acceso` datetime NOT NULL,
-  `ip_acceso` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `llantas_log` (`id_log`, `documento_usuario`, `placa_vehiculo`, `estado_llantas`, `ultimo_cambio`, `presion_llantas`, `kilometraje_actual`, `proximo_cambio_km`, `proximo_cambio_fecha`, `notas`, `fecha_registro`) VALUES
+(1, '1109491416', 'MOM202', 'Bueno', '2025-07-02', 30.00, 5000000, 50000, '2026-07-02', 'Nuevas', '2025-07-03 02:16:52');
 
 -- --------------------------------------------------------
 
@@ -505,6 +583,28 @@ CREATE TABLE `log_registros` (
   `fecha_registro` datetime DEFAULT current_timestamp(),
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `log_registros`
+--
+
+INSERT INTO `log_registros` (`id_log`, `documento_usuario`, `email_usuario`, `fecha_registro`, `descripcion`) VALUES
+(1, '1109490190', 'milady@gmail.com', '2025-06-17 22:00:36', 'Nuevo Usuario registrado'),
+(2, '8764534254', 'edwardfarsidg@gmail.com', '2025-06-18 01:51:30', 'Nuevo Usuario registrado'),
+(3, '123456780', 'mauro@gmail.com', '2025-06-25 00:07:20', 'Nuevo Usuario registrado'),
+(4, '1109492268', 'Dairon@gmail.com', '2025-06-25 00:33:34', 'Nuevo Usuario registrado'),
+(5, '1110174519', 'valenguevara87@gmail.com', '2025-06-25 03:41:56', 'Nuevo Usuario registrado'),
+(6, '1104941185', 'adriancamargo69@gmail.com', '2025-06-27 15:46:22', 'Nuevo Usuario registrado'),
+(7, '1110174520', 'Carlosgo1821@gmail.com', '2025-06-28 15:29:40', 'Nuevo Usuario registrado'),
+(8, '1110174530', 'federico@gmail.com', '2025-06-28 16:33:43', 'Nuevo Usuario registrado'),
+(9, '1110174530', 'federico@gmail.com', '2025-06-28 16:37:29', 'Nuevo Usuario registrado'),
+(10, '1110174530', 'federico@gmail.com', '2025-06-28 16:52:23', 'Nuevo Usuario registrado'),
+(11, '987654321', 'admin@gmail.com', '2025-06-30 00:45:07', 'Nuevo Usuario registrado'),
+(12, '1109385178', 'tairasofia@gmail.com', '2025-07-01 19:42:58', 'Nuevo Usuario registrado'),
+(13, '1109492268', 'dairon@gmail.com', '2025-07-02 06:42:25', 'Nuevo Usuario registrado'),
+(14, '1104941185', 'adriancamargo69@gmail.com', '2025-07-07 21:17:06', 'Nuevo Usuario registrado'),
+(15, '1109385178', 'tairasofiarubiomedina@gmail.com', '2025-07-07 21:26:29', 'Nuevo Usuario registrado'),
+(16, '1109000676', 'danielmontealegre408@gmail.com', '2025-07-07 22:06:00', 'Nuevo Usuario registrado');
 
 -- --------------------------------------------------------
 
@@ -523,6 +623,16 @@ CREATE TABLE `mantenimiento` (
   `proximo_cambio_km` int(11) DEFAULT NULL,
   `proximo_cambio_fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `mantenimiento`
+--
+
+INSERT INTO `mantenimiento` (`id_mantenimiento`, `placa`, `id_tipo_mantenimiento`, `fecha_programada`, `fecha_realizada`, `observaciones`, `kilometraje_actual`, `proximo_cambio_km`, `proximo_cambio_fecha`) VALUES
+(4, 'UVG099', '1', '2025-06-29', '2025-06-29', 'Cambios de aceite', 212321, 2132122, '2025-07-02'),
+(5, 'GZM57D', '1', '2025-06-29', '2025-06-29', 'Cambios', 21321, 23123, '2025-07-02'),
+(6, 'CAR333', '1', '2025-07-08', '2025-01-15', 'Holaaa', 6546312, 6546544, '2025-07-05'),
+(7, 'MOM202', '1', '2025-07-02', '2025-07-02', 'mantenimiento general', 1000, 50000, '2025-11-02');
 
 --
 -- Disparadores `mantenimiento`
@@ -582,6 +692,13 @@ CREATE TABLE `mantenimiento_log` (
   `observaciones` text DEFAULT NULL,
   `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `mantenimiento_log`
+--
+
+INSERT INTO `mantenimiento_log` (`id_log`, `documento_usuario`, `placa_vehiculo`, `id_tipo_mantenimiento`, `fecha_programada`, `fecha_realizada`, `kilometraje_actual`, `proximo_cambio_km`, `proximo_cambio_fecha`, `observaciones`, `fecha_registro`) VALUES
+(1, '1109491416', 'MOM202', 1, '2025-07-02', '2025-07-02', 1000, 50000, '2025-11-02', 'mantenimiento general', '2025-07-03 02:19:20');
 
 -- --------------------------------------------------------
 
@@ -690,6 +807,22 @@ INSERT INTO `marca` (`id_marca`, `nombre_marca`, `id_tipo_vehiculo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `multas`
+--
+
+CREATE TABLE `multas` (
+  `id_multa` varchar(20) NOT NULL,
+  `placa` varchar(10) NOT NULL,
+  `documento_usuario` varchar(20) NOT NULL,
+  `fecha_multa` date NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `monto` decimal(10,2) NOT NULL,
+  `id_estado_multa` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `notificaciones`
 --
 
@@ -697,9 +830,66 @@ CREATE TABLE `notificaciones` (
   `id` int(11) NOT NULL,
   `documento_usuario` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `mensaje` text NOT NULL,
+  `tipo` text DEFAULT NULL,
   `fecha` timestamp NULL DEFAULT current_timestamp(),
   `leido` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `notificaciones`
+--
+
+INSERT INTO `notificaciones` (`id`, `documento_usuario`, `mensaje`, `tipo`, `fecha`, `leido`) VALUES
+(1, '1234567890', '🔧 Hola Instructor cesar, el cambio de llantas de tu vehículo con placa GAS900 está programado para el 2025-07-05. Por favor agenda tu mantenimiento.', '0', '2025-07-02 00:25:51', 0),
+(2, '1234567890', '🔧 Hola Instructor cesar, el cambio de llantas de tu vehículo con placa GAS900 está programado para el 2025-07-05. Por favor agenda tu mantenimiento.', '0', '2025-07-02 00:41:57', 0),
+(3, '1234567890', '🔧 Hola Instructor cesar, el cambio de llantas de tu vehículo con placa GAS900 está programado para el 2025-07-05. Por favor agenda tu mantenimiento.', '0', '2025-07-02 00:42:29', 0),
+(4, '1110174530', '🔧 Hola federico, el cambio de llantas de tu vehículo con placa CAR333 está programado para el 2025-07-05. Por favor agenda tu mantenimiento.', '0', '2025-07-02 00:42:29', 0),
+(5, '1109490190', '🚫 Hola Francy , los siguientes vehículos tienen pico y placa hoy (Martes): KKK333.', '0', '2025-07-02 01:31:34', 0),
+(6, '1234567890', '🚫 Hola Instructor cesar, los siguientes vehículos tienen pico y placa hoy (Martes): ASD213.', '0', '2025-07-02 01:31:35', 0),
+(7, '9876543210', '🚫 Hola carlos, los siguientes vehículos tienen pico y placa hoy (Martes): KSK234.', '0', '2025-07-02 01:31:35', 0),
+(8, '1109490190', '🚫 Hola Francy , los siguientes vehículos tienen pico y placa hoy (Martes): KKK333.', '0', '2025-07-02 01:49:24', 0),
+(9, '1110174530', '🚫 Hola federico, los siguientes vehículos tienen pico y placa hoy (Martes): CAR333.', '0', '2025-07-02 01:49:25', 0),
+(10, '1234567890', '🚫 Hola Instructor cesar, los siguientes vehículos tienen pico y placa hoy (Martes): ASD213.', '0', '2025-07-02 01:49:25', 0),
+(11, '9876543210', '🚫 Hola carlos, los siguientes vehículos tienen pico y placa hoy (Martes): KSK234.', '0', '2025-07-02 01:49:25', 0),
+(12, '1110174530', '🔧 Hola federico, recuerda que el mantenimiento de tu vehículo con placa CAR333 está programado para el 2025-07-05. ¡No lo dejes pasar!', '0', '2025-07-02 01:56:26', 0),
+(13, '1110174530', '📋 Hola federico, tu licencia categoría 5 vence el 2025-07-05. Por favor, renuévala a tiempo para evitar sanciones.', '0', '2025-07-02 02:10:06', 0),
+(14, '1110174530', '🛡️ Hola federico, el SOAT de tu vehículo con placa CAR333 vence el 2025-07-05. No olvides renovarlo a tiempo.', '0', '2025-07-02 02:14:29', 0),
+(15, '1110174530', '🔧 Hola federico, la técnico-mecánica de tu vehículo con placa CAR333 vence el 2025-07-05. Recuerda renovarla a tiempo.', '0', '2025-07-02 02:18:26', 0),
+(16, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:27:59', 0),
+(17, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:27:59', 0),
+(18, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:28:12', 0),
+(19, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:28:13', 0),
+(20, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:28:14', 0),
+(21, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:28:15', 0),
+(22, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:28:19', 0),
+(23, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:30:04', 0),
+(24, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:30:06', 0),
+(25, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:30:12', 0),
+(26, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:30:15', 0),
+(27, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:30:16', 0),
+(28, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:31:13', 0),
+(29, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:31:16', 0),
+(30, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:31:19', 0),
+(31, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:31:32', 0),
+(32, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:32:15', 0),
+(33, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:32:21', 0),
+(34, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:32:33', 0),
+(35, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:32:33', 0),
+(36, '1109491416', 'Tu SOAT está próximo a vencer.', '0', '2025-07-02 15:32:35', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `otros`
+--
+
+CREATE TABLE `otros` (
+  `id_otros` int(11) NOT NULL,
+  `id_mantenimiento` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `Factura` varchar(500) NOT NULL,
+  `Total` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -786,7 +976,8 @@ INSERT INTO `servicios_licencias` (`id_servicio`, `nombre_servicios`) VALUES
 
 CREATE TABLE `sistema_licencias` (
   `id` int(11) NOT NULL,
-  `nombre_empresa` varchar(255) NOT NULL,
+  `id_empresa` int(11) NOT NULL,
+  `usuario_asignado` varchar(20) NOT NULL,
   `tipo_licencia` enum('basica','profesional','empresarial') DEFAULT 'basica',
   `fecha_inicio` date NOT NULL,
   `fecha_vencimiento` date NOT NULL,
@@ -802,10 +993,8 @@ CREATE TABLE `sistema_licencias` (
 -- Volcado de datos para la tabla `sistema_licencias`
 --
 
-INSERT INTO `sistema_licencias` (`id`, `nombre_empresa`, `tipo_licencia`, `fecha_inicio`, `fecha_vencimiento`, `max_usuarios`, `max_vehiculos`, `estado`, `clave_licencia`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 'FlotaX AGC', 'empresarial', '2025-07-05', '2026-07-05', 100, 500, 'activa', 'FLOTAX-81C1139F61410B90', '2025-07-05 14:12:47', '2025-07-05 14:12:47'),
-(2, 'sena', 'profesional', '2025-07-05', '2026-03-05', 50, 200, 'activa', 'FLOTAX-713C10278741C12A', '2025-07-05 14:14:01', '2025-07-05 14:14:01'),
-(3, 'SENA', 'basica', '2025-07-05', '2026-07-05', 10, 50, 'activa', 'FLOTAX-0D7559FBA67770B0', '2025-07-05 14:26:46', '2025-07-05 14:26:46');
+INSERT INTO `sistema_licencias` (`id`, `id_empresa`, `usuario_asignado`, `tipo_licencia`, `fecha_inicio`, `fecha_vencimiento`, `max_usuarios`, `max_vehiculos`, `estado`, `clave_licencia`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(4, 1, '1109385178', 'empresarial', '2025-07-06', '2025-07-31', 100, 500, 'activa', 'LIC-686C79D6E2E87', '2025-07-08 01:52:22', '2025-07-08 01:52:22');
 
 -- --------------------------------------------------------
 
@@ -821,6 +1010,15 @@ CREATE TABLE `soat` (
   `id_aseguradora` int(11) NOT NULL,
   `id_estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `soat`
+--
+
+INSERT INTO `soat` (`id_soat`, `id_placa`, `fecha_expedicion`, `fecha_vencimiento`, `id_aseguradora`, `id_estado`) VALUES
+(2, 'CAR333', '2024-07-05', '2025-07-06', 22, 1),
+(3, 'MOM202', '2025-07-02', '2026-07-02', 28, 1),
+(4, 'RGB293', '2025-07-03', '2026-07-03', 22, 1);
 
 --
 -- Disparadores `soat`
@@ -877,7 +1075,8 @@ CREATE TABLE `soat_log` (
 --
 
 INSERT INTO `soat_log` (`id_log`, `documento_usuario`, `placa_vehiculo`, `fecha_expedicion`, `fecha_vencimiento`, `id_aseguradora`, `estado`, `fecha_registro`) VALUES
-(1, '1109491416', 'MOM202', '2025-07-02', '2026-07-02', 28, 1, '2025-07-03 02:13:56');
+(1, '1109491416', 'MOM202', '2025-07-02', '2026-07-02', 28, 1, '2025-07-03 02:13:56'),
+(2, '1104941185', 'RGB293', '2025-07-03', '2026-07-03', 22, 1, '2025-07-03 07:22:10');
 
 -- --------------------------------------------------------
 
@@ -893,6 +1092,14 @@ CREATE TABLE `tecnomecanica` (
   `fecha_vencimiento` date NOT NULL,
   `id_estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tecnomecanica`
+--
+
+INSERT INTO `tecnomecanica` (`id_rtm`, `id_placa`, `id_centro_revision`, `fecha_expedicion`, `fecha_vencimiento`, `id_estado`) VALUES
+(2, 'CAR333', 3, '2024-07-05', '2025-07-05', 1),
+(3, 'MOM202', 2, '2025-07-02', '2026-07-02', 1);
 
 --
 -- Disparadores `tecnomecanica`
@@ -943,6 +1150,13 @@ CREATE TABLE `tecnomecanica_log` (
   `estado` int(11) DEFAULT NULL,
   `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tecnomecanica_log`
+--
+
+INSERT INTO `tecnomecanica_log` (`id_log`, `documento_usuario`, `placa_vehiculo`, `centro_revision`, `fecha_expedicion`, `fecha_vencimiento`, `estado`, `fecha_registro`) VALUES
+(1, '1109491416', 'MOM202', 2, '2025-07-02', '2026-07-02', 1, '2025-07-03 02:20:25');
 
 -- --------------------------------------------------------
 
@@ -1031,7 +1245,7 @@ CREATE TABLE `usuarios` (
   `joined_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `foto_perfil` varchar(255) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
-  `nit_empresa` varchar(20) DEFAULT NULL
+  `nit_empresa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1039,9 +1253,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`documento`, `nombre_completo`, `email`, `password`, `telefono`, `id_estado_usuario`, `id_rol`, `reset_token`, `reset_expira`, `joined_at`, `foto_perfil`, `fecha_nacimiento`, `nit_empresa`) VALUES
-('0000000000', 'Super Administradord', 'superadmin@gmail.com', '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1234567890, 1, 3, NULL, NULL, '2025-07-05 08:22:52', NULL, NULL, NULL),
-('1109491416', 'Edwar Farid Gomez Sanchez', 'edwardfaridg@gmail.com', '$2y$12$tzKF310HKlVIyqjSoSwNGu89giC0LhKXZcds0wwKo6sapRzARjl7q', 3138102150, 1, 3, NULL, NULL, '2025-07-05 14:08:04', '../usuario/css/img/perfil.jpg', '2006-05-04', NULL),
-('987654321', 'admin', 'admin@gmail.com', '$2y$12$MlKgR3yaE/DWjGBn/AswkejpcchJvRbF3xJEPNRK68zQrJ41CU/O6', 3209790912, 1, 1, NULL, NULL, '2025-07-02 00:00:01', '/roles/usuario/css/img/987654321_1751414401.jpeg', NULL, NULL);
+('1104941185', 'Adrian', 'adriancamargo69@gmail.com', '$2y$12$54EOWGRVf2A56FcFYMdU2uMjKzWfr325zv.ZXabRKgiez8eSRELfK', 3108571293, 1, 3, NULL, NULL, '2025-07-08 02:18:50', '/roles/usuario/css/img/perfil.jpg', NULL, NULL),
+('1109000676', 'Daniel', 'danielmontealegre408@gmail.com', '$2y$12$qErUEpfdK3tRpku2OV9mQORjzUEbXdoL7WGkPshrNBNsB/GB..IKW', 1234555332, 1, 2, NULL, NULL, '2025-07-08 03:06:00', '/roles/usuario/css/img/perfil.jpg', NULL, NULL),
+('1109385178', 'Taira', 'tairasofiarubiomedina@gmail.com', '$2y$12$mJUdqit.8rZK1krJbll/aeaF.UQT3ZDRcIdOxfhph3t4aEdo0dWHe', 3157622646, 1, 1, NULL, NULL, '2025-07-08 03:45:02', '../usuario/css/img/perfil.jpg', NULL, NULL);
 
 --
 -- Disparadores `usuarios`
@@ -1053,6 +1267,29 @@ CREATE TRIGGER `after_insert_usuario` AFTER INSERT ON `usuarios` FOR EACH ROW BE
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios_licencias`
+--
+
+CREATE TABLE `usuarios_licencias` (
+  `id_acceso` int(11) NOT NULL,
+  `id_empresa` int(11) NOT NULL,
+  `doc_usu` varchar(20) NOT NULL,
+  `estado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios_licencias`
+--
+
+INSERT INTO `usuarios_licencias` (`id_acceso`, `id_empresa`, `doc_usu`, `estado`) VALUES
+(1, 1, '1109000676', 2),
+(2, 1, '1109000676', 2),
+(3, 1, '1109000676', 2),
+(4, 1, '1109000676', 1);
 
 -- --------------------------------------------------------
 
@@ -1072,6 +1309,32 @@ CREATE TABLE `vehiculos` (
   `foto_vehiculo` varchar(255) DEFAULT NULL COMMENT 'Ruta de la imagen del vehículo',
   `registrado_por` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculos`
+--
+
+INSERT INTO `vehiculos` (`placa`, `tipo_vehiculo`, `Documento`, `id_marca`, `modelo`, `kilometraje_actual`, `id_estado`, `fecha_registro`, `foto_vehiculo`, `registrado_por`) VALUES
+('AAS232', 1, '1234567890', '2', '2021', 21233213, '10', '2025-06-11', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('AGS21G', 2, '1234567890', '16', '2020', 12345678, '10', '2025-06-11', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('ASD213', 1, '1234567890', '3', '2022', 1234567, '10', '2025-06-11', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('ASD231', 1, '1234567890', '1', '2021', 100029, '10', '2025-06-01', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('CAR333', 4, '1110174530', '46', '2020', 6564565, '4', '2025-07-01', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_6865131412eee.png', NULL),
+('DAS231', 8, '1234567890', '73', '2020', 1123456, '10', '2025-06-11', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('FIS234', 4, '1110174520', '42', '2020', 40394304943, '10', '2025-06-28', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_68600e822ce9c.png', NULL),
+('GAS900', 3, '1234567890', '36', '2025', 12345678, '10', '2025-06-11', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('GZM57D', 2, '1104941185', '17', '2022', 40000, '10', '2025-06-27', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('HTM129', 4, '9876543210', '43', '2020', 51325, '5', '2025-06-20', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('KKK222', 1, '1109491416', '9', '2002', 1241512, '2', '2025-06-15', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_685ebee958d17.jpg', NULL),
+('KKK333', 8, '1109490190', '71', '2020', 202020, '6', '2025-06-18', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('KSK234', 1, '9876543210', '4', '2021', 53672822, '1', '2025-05-30', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_68399d04bb05d.png', NULL),
+('MAS297', 8, '1109491416', '72', '2020', 2292, '1', '2025-06-25', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_685bf370c822a.jpg', NULL),
+('MOM202', 6, '1109491416', '60', '2020', 900, '1', '2025-07-02', '../vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('ODZ06E', 2, '1109385178', '21', '2020', 25000, '6', '2025-07-01', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_68643cbb366ff.jpg', NULL),
+('POP321', 7, '9876543210', '68', '2020', 434343, '3', '2025-06-25', 'vehiculos/listar/guardar_foto_vehiculo/vehiculo_685bf2fbbe77f.jpg', NULL),
+('RGB293', 3, '1104941185', '34', '2025', 9999, '10', '2025-07-02', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('UVG099', 3, '1104941185', '32', '2015', 129000, '10', '2025-06-28', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL),
+('WQW222', 4, '1109490190', '48', '2020', 202020, '1', '2025-06-18', 'vehiculos/listar/guardar_foto_vehiculo/sin_foto_carro.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -1179,11 +1442,25 @@ ALTER TABLE `correos_enviados_tecno`
   ADD KEY `id_rtm` (`id_rtm`);
 
 --
+-- Indices de la tabla `detalles_mantenimiento_clasificacion`
+--
+ALTER TABLE `detalles_mantenimiento_clasificacion`
+  ADD PRIMARY KEY (`Id_detalles`),
+  ADD KEY `id_mantenimiento` (`id_mantenimiento`),
+  ADD KEY `id_trabajo` (`id_trabajo`);
+
+--
 -- Indices de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`id_empresa`),
   ADD UNIQUE KEY `nit` (`nit`);
+
+--
+-- Indices de la tabla `estado_multa`
+--
+ALTER TABLE `estado_multa`
+  ADD PRIMARY KEY (`id_estado_multa`);
 
 --
 -- Indices de la tabla `estado_soat`
@@ -1232,20 +1509,6 @@ ALTER TABLE `llantas_log`
   ADD PRIMARY KEY (`id_log`);
 
 --
--- Indices de la tabla `logs_sistema`
---
-ALTER TABLE `logs_sistema`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `log_accesos_superadmin`
---
-ALTER TABLE `log_accesos_superadmin`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `documento` (`documento`),
-  ADD KEY `fecha_acceso` (`fecha_acceso`);
-
---
 -- Indices de la tabla `log_registros`
 --
 ALTER TABLE `log_registros`
@@ -1273,11 +1536,27 @@ ALTER TABLE `marca`
   ADD KEY `fk_marca_tipo` (`id_tipo_vehiculo`);
 
 --
+-- Indices de la tabla `multas`
+--
+ALTER TABLE `multas`
+  ADD PRIMARY KEY (`id_multa`),
+  ADD KEY `placa` (`placa`),
+  ADD KEY `documento_usuario` (`documento_usuario`),
+  ADD KEY `id_estado_multa` (`id_estado_multa`);
+
+--
 -- Indices de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `documento_usuario` (`documento_usuario`);
+
+--
+-- Indices de la tabla `otros`
+--
+ALTER TABLE `otros`
+  ADD PRIMARY KEY (`id_otros`),
+  ADD KEY `id_mantenimiento` (`id_mantenimiento`);
 
 --
 -- Indices de la tabla `pico_placa`
@@ -1308,7 +1587,9 @@ ALTER TABLE `servicios_licencias`
 --
 ALTER TABLE `sistema_licencias`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `clave_licencia` (`clave_licencia`);
+  ADD UNIQUE KEY `clave_licencia` (`clave_licencia`),
+  ADD KEY `id_empresa` (`id_empresa`),
+  ADD KEY `usuario_asignado` (`usuario_asignado`);
 
 --
 -- Indices de la tabla `soat`
@@ -1371,7 +1652,16 @@ ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`documento`),
   ADD KEY `id_estado_usuario` (`id_estado_usuario`),
   ADD KEY `id_rol` (`id_rol`),
-  ADD KEY `fk_usuarios_empresa` (`nit_empresa`);
+  ADD KEY `nit_empresa` (`nit_empresa`);
+
+--
+-- Indices de la tabla `usuarios_licencias`
+--
+ALTER TABLE `usuarios_licencias`
+  ADD PRIMARY KEY (`id_acceso`),
+  ADD KEY `id_empresa` (`id_empresa`),
+  ADD KEY `estado` (`estado`),
+  ADD KEY `doc_usu` (`doc_usu`);
 
 --
 -- Indices de la tabla `vehiculos`
@@ -1453,13 +1743,19 @@ ALTER TABLE `correos_enviados_pico_placa`
 -- AUTO_INCREMENT de la tabla `correos_enviados_soat`
 --
 ALTER TABLE `correos_enviados_soat`
-  MODIFY `id_correos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_correos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `correos_enviados_tecno`
 --
 ALTER TABLE `correos_enviados_tecno`
   MODIFY `id_correo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `detalles_mantenimiento_clasificacion`
+--
+ALTER TABLE `detalles_mantenimiento_clasificacion`
+  MODIFY `Id_detalles` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `empresas`
@@ -1504,34 +1800,22 @@ ALTER TABLE `llantas_log`
   MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `logs_sistema`
---
-ALTER TABLE `logs_sistema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1109491417;
-
---
--- AUTO_INCREMENT de la tabla `log_accesos_superadmin`
---
-ALTER TABLE `log_accesos_superadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
 -- AUTO_INCREMENT de la tabla `log_registros`
 --
 ALTER TABLE `log_registros`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimiento`
 --
 ALTER TABLE `mantenimiento`
-  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimiento_log`
 --
 ALTER TABLE `mantenimiento_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
@@ -1544,6 +1828,12 @@ ALTER TABLE `marca`
 --
 ALTER TABLE `notificaciones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT de la tabla `otros`
+--
+ALTER TABLE `otros`
+  MODIFY `id_otros` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pico_placa`
@@ -1573,19 +1863,19 @@ ALTER TABLE `servicios_licencias`
 -- AUTO_INCREMENT de la tabla `sistema_licencias`
 --
 ALTER TABLE `sistema_licencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `soat`
 --
 ALTER TABLE `soat`
-  MODIFY `id_soat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_soat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `soat_log`
 --
 ALTER TABLE `soat_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnomecanica`
@@ -1598,6 +1888,12 @@ ALTER TABLE `tecnomecanica`
 --
 ALTER TABLE `tecnomecanica_log`
   MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios_licencias`
+--
+ALTER TABLE `usuarios_licencias`
+  MODIFY `id_acceso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `vigencia_categoria_servicio`
@@ -1652,6 +1948,13 @@ ALTER TABLE `correos_enviados_tecno`
   ADD CONSTRAINT `correos_enviados_tecno_ibfk_1` FOREIGN KEY (`id_rtm`) REFERENCES `tecnomecanica` (`id_rtm`);
 
 --
+-- Filtros para la tabla `detalles_mantenimiento_clasificacion`
+--
+ALTER TABLE `detalles_mantenimiento_clasificacion`
+  ADD CONSTRAINT `detalles_mantenimiento_clasificacion_ibfk_1` FOREIGN KEY (`id_mantenimiento`) REFERENCES `mantenimiento` (`id_mantenimiento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detalles_mantenimiento_clasificacion_ibfk_2` FOREIGN KEY (`id_trabajo`) REFERENCES `clasificacion_trabajo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `licencias`
 --
 ALTER TABLE `licencias`
@@ -1679,10 +1982,31 @@ ALTER TABLE `marca`
   ADD CONSTRAINT `fk_marca_tipo` FOREIGN KEY (`id_tipo_vehiculo`) REFERENCES `tipo_vehiculo` (`id_tipo_vehiculo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `multas`
+--
+ALTER TABLE `multas`
+  ADD CONSTRAINT `multas_ibfk_1` FOREIGN KEY (`placa`) REFERENCES `vehiculos` (`placa`),
+  ADD CONSTRAINT `multas_ibfk_2` FOREIGN KEY (`documento_usuario`) REFERENCES `usuarios` (`documento`),
+  ADD CONSTRAINT `multas_ibfk_3` FOREIGN KEY (`id_estado_multa`) REFERENCES `estado_multa` (`id_estado_multa`);
+
+--
 -- Filtros para la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`documento_usuario`) REFERENCES `usuarios` (`documento`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `otros`
+--
+ALTER TABLE `otros`
+  ADD CONSTRAINT `otros_ibfk_1` FOREIGN KEY (`id_mantenimiento`) REFERENCES `mantenimiento` (`id_mantenimiento`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `sistema_licencias`
+--
+ALTER TABLE `sistema_licencias`
+  ADD CONSTRAINT `sistema_licencias_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE,
+  ADD CONSTRAINT `sistema_licencias_ibfk_2` FOREIGN KEY (`usuario_asignado`) REFERENCES `usuarios` (`documento`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `soat`
@@ -1704,9 +2028,17 @@ ALTER TABLE `tecnomecanica`
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_usuarios_empresa` FOREIGN KEY (`nit_empresa`) REFERENCES `empresas` (`nit`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_estado_usuario`) REFERENCES `estado_usuario` (`id_estado`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`),
+  ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`nit_empresa`) REFERENCES `empresas` (`id_empresa`);
+
+--
+-- Filtros para la tabla `usuarios_licencias`
+--
+ALTER TABLE `usuarios_licencias`
+  ADD CONSTRAINT `usuarios_licencias_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`),
+  ADD CONSTRAINT `usuarios_licencias_ibfk_2` FOREIGN KEY (`estado`) REFERENCES `estado_usuario` (`id_estado`),
+  ADD CONSTRAINT `usuarios_licencias_ibfk_3` FOREIGN KEY (`doc_usu`) REFERENCES `usuarios` (`documento`);
 
 --
 -- Filtros para la tabla `vehiculos`

@@ -1,0 +1,9 @@
+Array
+(
+    [nombre_empresa] => 1
+    [usuario_asignado] => 1109385178
+    [tipo_licencia] => basica
+    [fecha_inicio] => 2025-07-01
+    [fecha_vencimiento] => 2025-07-26
+    [action] => crear_licencia
+)

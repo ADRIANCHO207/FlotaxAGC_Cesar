@@ -1,17 +1,18 @@
 <?php
 session_start();
 
-// Verificar autenticación de superadmin
-if (!isset($_SESSION['superadmin_logged']) || $_SESSION['superadmin_logged'] !== true) {
-    header('Location: login.php');
+// Verificación de inicio de sesión
+$documento = $_SESSION['documento'] ?? null;
+if (!$documento) {
+    header('Location: ../../login.php');
     exit;
 }
 
 $nombre_superadmin = $_SESSION['superadmin_nombre'] ?? 'Superadmin';
 $documento_superadmin = $_SESSION['superadmin_documento'] ?? '';
 
-require_once '../includes/validarsession.php';
-require_once '../conecct/conex.php';
+require_once '../../includes/validarsession.php';
+require_once '../../conecct/conex.php';
 // Remover esta línea: require_once 'auth_superadmin.php';
 
 try {
@@ -101,8 +102,8 @@ try {
     }
 $stmt = $conexion->prepare("
     SELECT *
-    FROM usuarios u
-    ORDER BY u.nombre_completo
+    FROM usuarios u WHERE id_rol = 1
+    ORDER BY u.nombre_completo;
 ");
 $stmt->execute();
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -293,7 +294,7 @@ echo "<script>console.log('usuarios_disponibles asignado, count: " . count($usua
                         <i class="fas fa-certificate me-2"></i> Licenciamiento
                     </a>
                     <hr class="text-white-50">
-                    <a class="nav-link text-danger" href="logout.php">
+                    <a class="nav-link text-danger" href="../../includes/salir.php">
                         <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
                     </a>
                 </nav>
@@ -440,11 +441,25 @@ echo "<script>console.log('usuarios_disponibles asignado, count: " . count($usua
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nombre de la Empresa</label>
-                                <input type="text" class="form-control" name="nombre_empresa" required>
+                                <select class="form-select" name="nombre_empresa" required>
+                                    <option value="">Seleccione una empresa</option>
+                                    <?php foreach ($empresas as $empresa): ?>
+                                        <option value="<?= htmlspecialchars($empresa['id_empresa']) ?>">
+                                            <?= htmlspecialchars($empresa['nombre_empresa']) . ' (' . $empresa['estado'] . ')' ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">NIT de la Empresa</label>
-                                <input type="text" class="form-control" name="nit_empresa" placeholder="Ej: 900123456-1" required>
+                               <select class="form-select" name="nombre_empresa" required>
+                                    <option value="">Seleccione una empresa</option>
+                                    <?php foreach ($empresas as $empresa): ?>
+                                        <option value="<?= htmlspecialchars($empresa['id_empresa']) ?>">
+                                            <?= htmlspecialchars($empresa['nombre_empresa']) . ' (' . $empresa['nit'] . ')' ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Asignar a Usuario</label>
@@ -499,8 +514,9 @@ echo "<script>console.log('usuarios_disponibles asignado, count: " . count($usua
                     method: 'POST',
                     body: formData
                 });
-                
-                const data = await response.json();
+                const text = await response.text();
+                console.log('Respuesta backend:', text);
+                const data = JSON.parse(text);
                 
                 if (data.success) {
                     Swal.fire({

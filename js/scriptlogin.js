@@ -51,7 +51,7 @@ const validarformulario = (e) => {
             validarCampo(expresiones.validadocumento, e.target, 'doc', 'validacion');
             break;
         case "passw": // Validación del campo contraseña
-            // Llama a la función reutilizable con los parámetros específicos para contraseña
+            // Llama a la función reutilizable with los parámetros específicos para contraseña
             validarCampo(expresiones.validapassword, e.target, 'passw', 'validacion2');
             break;
     }
@@ -96,22 +96,19 @@ formulario.addEventListener('submit', (e) => {
 
                 // Si la autenticación fue exitosa
                 if (response.status === "success") {
-                    // Muestra mensaje de éxito
                     document.getElementById('formulario_exito').style.opacity = 1;
                     document.getElementById('formulario_exito').style.color = "#158000";
 
-                    // Después de 2 segundos, redirige según el rol del usuario
                     setTimeout(() => {
-                        // Oculta el mensaje de éxito
                         document.getElementById('formulario_exito').style.opacity = 0;
 
                         // Redirección dependiendo del rol del usuario autenticado
-                        if (response.rol === "admin") {
-                            // Redirige al panel de administrador
+                        if (response.rol === "superadmin") {
+                            location.href = "../roles/superadmin/dashboard";
+                        } else if (response.rol === "admin") {
                             location.href = "../roles/admin/index";
                         } else if (response.rol === "usuario") {
-                            // Redirige al panel de usuario
-                            location.href ="../roles/usuario/index";
+                            location.href = "../roles/usuario/index";
                         }
 
                     }, 2000);

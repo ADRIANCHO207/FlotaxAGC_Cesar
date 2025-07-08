@@ -1,17 +1,19 @@
 <?php
 session_start();
 
-// Verificar que el usuario esté autenticado como superadmin
-if (!isset($_SESSION['superadmin_logged']) || $_SESSION['superadmin_logged'] !== true) {
-    header('Location: login.php');
+// Verificación de inicio de sesión
+$documento = $_SESSION['documento'] ?? null;
+if (!$documento) {
+    header('Location: ../../login.php');
     exit;
 }
+
 
 $nombre_superadmin = $_SESSION['superadmin_nombre'] ?? 'Superadmin';
 $documento_superadmin = $_SESSION['superadmin_documento'] ?? '';
 
 // Incluir conexión a la base de datos para obtener estadísticas
-require_once '../conecct/conex.php';
+require_once '../../conecct/conex.php';
 
 // Crear instancia de la base de datos
 $database = new Database();
@@ -29,26 +31,27 @@ try {
     $stmt->execute();
     $total_usuarios = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     
-    // Vehículos por estado
-    $stmt = $conexion->prepare("SELECT ev.estado, COUNT(*) as cantidad FROM vehiculos v LEFT JOIN estado_vehiculo ev ON v.id_estado = ev.id_estado GROUP BY v.id_estado, ev.estado");
-    $stmt->execute();
-    $vehiculos_por_estado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Mantenimientos pendientes (próximos 30 días)
-    $stmt = $conexion->prepare("SELECT COUNT(*) as total FROM mantenimiento WHERE fecha_programada BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) AND estado = 'Pendiente'");
-    $stmt->execute();
-    $mantenimientos_pendientes = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    
     // Últimos usuarios registrados
-    $stmt = $conexion->prepare("SELECT u.nombre, u.apellido, u.documento, u.fecha_registro, r.tip_rol FROM usuarios u LEFT JOIN roles r ON u.id_rol = r.id_rol ORDER BY u.fecha_registro DESC LIMIT 5");
+    $stmt = $conexion->prepare("SELECT
+    u.nombre_completo,
+    u.documento,
+    et.tipo_stade        AS estado_usuario,
+    lg.fecha_registro,
+    r.tip_rol,
+    lg.descripcion
+FROM usuarios AS u
+JOIN log_registros  AS lg ON lg.documento_usuario = u.documento          -- o lg.documento_usuario = u.documento
+JOIN estado_usuario AS et ON et.id_estado = u.id_estado_usuario   -- no compares con el nombre, sino con el id
+JOIN roles          AS r  ON r.id_rol             = u.id_rol
+WHERE u.id_rol = 2                                -- solo usuarios (rol 2)
+ORDER BY lg.fecha_registro DESC
+LIMIT 8;");
     $stmt->execute();
     $ultimos_usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
-    $total_vehiculos = 0;
-    $total_usuarios = 0;
+    // Manejo de errores, asignar valores por defecto
     $vehiculos_por_estado = [];
-    $mantenimientos_pendientes = 0;
     $ultimos_usuarios = [];
     error_log("Error en dashboard: " . $e->getMessage());
 }
@@ -196,7 +199,7 @@ try {
                         <i class="fas fa-certificate me-2"></i> Licenciamiento
                     </a>
                     <hr class="text-white-50">
-                    <a class="nav-link text-danger" href="logout.php">
+                    <a class="nav-link text-danger" href="../../includes/salir.php">
                         <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
                     </a>
                 </nav>
@@ -253,32 +256,6 @@ try {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="stat-card warning">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h3 class="mb-1"><?php echo $mantenimientos_pendientes; ?></h3>
-                                        <p class="text-muted mb-0">Mantenimientos Pendientes</p>
-                                    </div>
-                                    <div class="stat-icon text-warning">
-                                        <i class="fas fa-wrench"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="stat-card danger">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h3 class="mb-1"><?php echo count($vehiculos_por_estado); ?></h3>
-                                        <p class="text-muted mb-0">Estados Activos</p>
-                                    </div>
-                                    <div class="stat-icon text-danger">
-                                        <i class="fas fa-chart-pie"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     
                     <!-- Charts and Tables Row -->
@@ -293,22 +270,36 @@ try {
                                                 <th>Nombre</th>
                                                 <th>Documento</th>
                                                 <th>Rol</th>
-                                                <th>Fecha</th>
+                                                <th>Estado</th>
+                                                <th>Fecha de Registro</th>
+                                                <th>Descripción</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($ultimos_usuarios as $usuario): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']); ?></td>
-                                                <td><?php echo htmlspecialchars($usuario['documento']); ?></td>
-                                                <td>
-                                                    <span class="badge bg-<?php echo $usuario['tip_rol'] == 'Administrador' ? 'primary' : 'secondary'; ?>">
-                                                        <?php echo htmlspecialchars($usuario['tip_rol']); ?>
-                                                    </span>
-                                                </td>
-                                                <td><?php echo date('d/m/Y', strtotime($usuario['fecha_registro'])); ?></td>
-                                            </tr>
-                                            <?php endforeach; ?>
+                                            <?php if (empty($ultimos_usuarios)): ?>
+                                                <tr>
+                                                    <td colspan="6" class="text-center text-muted">No hay usuarios registrados recientemente.</td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <?php foreach ($ultimos_usuarios as $usuario): ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($usuario['nombre_completo']); ?></td>
+                                                    <td><?php echo htmlspecialchars($usuario['documento']); ?></td>
+                                                    <td>
+                                                        <span class="badge bg-<?php echo $usuario['tip_rol'] == 'Administrador' ? 'primary' : 'secondary'; ?>">
+                                                            <?php echo htmlspecialchars($usuario['tip_rol']); ?>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-<?php echo $usuario['estado_usuario'] == 'Activo' ? 'success' : 'danger'; ?>">
+                                                            <?php echo htmlspecialchars($usuario['estado_usuario']); ?>
+                                                        </span>
+                                                    </td>
+                                                    <td><?php echo date('d/m/Y H:i', strtotime($usuario['fecha_registro'])); ?></td>
+                                                    <td><?php echo htmlspecialchars($usuario['descripcion']); ?></td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>

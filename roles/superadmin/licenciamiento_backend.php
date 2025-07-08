@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// Verificar autenticación de superadmin
-if (!isset($_SESSION['superadmin_logged']) || $_SESSION['superadmin_logged'] !== true) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'No autorizado']);
+// Verificación de inicio de sesión
+$documento = $_SESSION['documento'] ?? null;
+if (!$documento) {
+    header('Location: ../../login.php');
     exit;
 }
 
-require_once '../conecct/conex.php';
+require_once '../../conecct/conex.php';
 
 $database = new Database();
 $conexion = $database->conectar();
@@ -16,6 +16,9 @@ $conexion = $database->conectar();
 header('Content-Type: application/json');
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
+
+// Registro de debug
+file_put_contents('debug_post.txt', print_r($_POST, true));
 
 switch ($action) {
     case 'crear_licencia':
@@ -60,7 +63,7 @@ function crearLicencia($conexion, $datos) {
     try {
         $stmt = $conexion->prepare("
             INSERT INTO sistema_licencias 
-            (nombre_empresa, usuario_asignado, tipo_licencia, fecha_inicio, fecha_vencimiento, max_usuarios, max_vehiculos, clave_licencia) 
+            (id_empresa, usuario_asignado, tipo_licencia, fecha_inicio, fecha_vencimiento, max_usuarios, max_vehiculos, clave_licencia) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
@@ -70,6 +73,26 @@ function crearLicencia($conexion, $datos) {
             'profesional' => ['usuarios' => 50, 'vehiculos' => 200],
             'empresarial' => ['usuarios' => 100, 'vehiculos' => 500]
         ];
+        
+        if (
+            empty($datos['nombre_empresa']) ||
+            empty($datos['usuario_asignado']) ||
+            empty($datos['tipo_licencia']) ||
+            empty($datos['fecha_inicio']) ||
+            empty($datos['fecha_vencimiento'])
+        ) {
+            return [
+                'success' => false,
+                'message' => 'Todos los campos son obligatorios'
+            ];
+        }
+
+        if (!isset($limites[$datos['tipo_licencia']])) {
+            return [
+                'success' => false,
+                'message' => 'Tipo de licencia no válido'
+            ];
+        }
         
         $max_usuarios = $limites[$datos['tipo_licencia']]['usuarios'];
         $max_vehiculos = $limites[$datos['tipo_licencia']]['vehiculos'];

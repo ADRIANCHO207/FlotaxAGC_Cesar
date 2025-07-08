@@ -6,6 +6,8 @@ include '../../includes/validarsession.php';
 $db = new Database();
 $con = $db->conectar();
 
+echo $_SESSION['tipo'];
+
 // if ($_SESSION['tipo'] !== 1) {
 //   header('Location:' . BASE_URL . '/includes/exit.php?motivo=acceso-denegado');
 //   exit;

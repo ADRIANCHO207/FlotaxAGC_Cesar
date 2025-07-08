@@ -1,76 +1,86 @@
 <?php
-// Bloque PHP para manejo de autenticación de usuarios
-
-// Iniciar sesión PHP para manejo de variables de sesión
 session_start();
-
-// Incluir archivo de conexión a la base de datos
 require_once('../conecct/conex.php');
 
-// Línea comentada - validación de sesión (actualmente deshabilitada)
-// include 'validarsesion.php';
-
-// Crear instancia de la clase Database
 $db = new Database();
-
-// Establecer conexión con la base de datos
 $con = $db->conectar();
-
-// Configurar el tipo de contenido de respuesta como JSON
 header('Content-Type: application/json');
 
-// Verificar que la petición HTTP sea de tipo POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Capturar datos del formulario usando null coalescing operator
-    $doc = $_POST['doc'] ?? '';     // Documento de identidad del usuario
-    $passw = $_POST['passw'] ?? ''; // Contraseña del usuario
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['status' => 'error', 'message' => 'Petición no válida']);
+    exit;
+}
 
-    // Validar que ambos campos estén completos
-    if (empty($doc) || empty($passw)) {
-        // Retornar error si algún campo está vacío
-        echo json_encode(['status' => 'error', 'message' => 'Error :Todos los campos son obligatorios.']);
-        exit; // Terminar ejecución del script
-    }
+$doc = $_POST['doc'] ?? '';
+$passw = $_POST['passw'] ?? '';
 
-    // Preparar consulta SQL para buscar usuario por documento
-    $sql = $con->prepare("SELECT * FROM usuarios WHERE documento = ?");
-    $sql->execute([$doc]); // Ejecutar consulta con el documento como parámetro
-    $fila = $sql->fetch(); // Obtener el registro del usuario
+if (empty($doc) || empty($passw)) {
+    echo json_encode(['status' => 'error', 'message' => 'Error: Todos los campos son obligatorios.']);
+    exit;
+}
 
-    // Verificar si el usuario existe en la base de datos
+try {
+    $sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :doc");
+    $sql->bindParam(':doc', $doc, PDO::PARAM_STR);
+    $sql->execute();
+    $fila = $sql->fetch(PDO::FETCH_ASSOC);
+
     if (!$fila) {
-        // Retornar error si el documento no está registrado
         echo json_encode(['status' => 'error', 'message' => 'Error: Documento no encontrado']);
-        exit; // Terminar ejecución del script
+        exit;
     }
 
-    // Verificar la contraseña usando password_verify para contraseñas hasheadas
     if (!password_verify($passw, $fila['password'])) {
-        // Retornar error si la contraseña no coincide
         echo json_encode(['status' => 'error', 'message' => 'Error: Contraseña incorrecta']);
-        exit; // Terminar ejecución del script
+        exit;
     }
 
-    // Verificar que el usuario esté activo (estado = 1)
     if ($fila['id_estado_usuario'] != 1) {
-        // Retornar error si el usuario está inactivo
         echo json_encode(['status' => 'error', 'message' => 'Error: Usuario inactivo']);
-        exit; // Terminar ejecución del script
+        exit;
     }
 
-    // Establecer variables de sesión para el usuario autenticado
-    $_SESSION['documento'] = $fila['documento']; // Guardar documento en sesión
-    $_SESSION['tipo'] = $fila['id_rol'];         // Guardar rol del usuario en sesión
+    $rol_id = $fila['id_rol'];
+    $rol_nombre = '';
 
-    // Retornar respuesta exitosa con información del rol
+    if ($rol_id == 3) {
+        $rol_nombre = 'superadmin';
+        // El superadmin no necesita validación de licencia
+    } elseif ($rol_id == 1) {
+        $rol_nombre = 'admin';
+        $licencia_sql = $con->prepare("SELECT estado FROM sistema_licencias WHERE usuario_asignado = :doc AND estado = 'activa' LIMIT 1");
+        $licencia_sql->bindParam(':doc', $doc, PDO::PARAM_STR);
+        $licencia_sql->execute();
+        if ($licencia_sql->fetch() === false) {
+            echo json_encode(['status' => 'error', 'message' => 'Error: No tiene una licencia de administrador activa.']);
+            exit;
+        }
+    } elseif ($rol_id == 2) {
+        $rol_nombre = 'usuario';
+        $acceso_sql = $con->prepare("SELECT estado FROM usuarios_licencias WHERE doc_usu = :doc AND estado = 1 LIMIT 1");
+        $acceso_sql->bindParam(':doc', $doc, PDO::PARAM_STR);
+        $acceso_sql->execute();
+        if ($acceso_sql->fetch() === false) {
+            echo json_encode(['status' => 'error', 'message' => 'Error: No tiene acceso permitido al sistema.']);
+            exit;
+        }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error: Rol de usuario no reconocido.']);
+        exit;
+    }
+    
+    $_SESSION['documento'] = $fila['documento'];
+    $_SESSION['tipo'] = $rol_nombre;
+    $_SESSION['id_rol'] = $rol_id;
+    $_SESSION['nombre_completo'] = $fila['nombre_completo'];
+
     echo json_encode([
         'status' => 'success',
-        'rol' => $fila['id_rol'] == 1 ? 'admin' : 'usuario' // Determinar tipo de rol
+        'rol' => $rol_nombre
     ]);
-} else {
-    // Manejar peticiones que no sean POST
-    echo json_encode(['status' => 'error', 'message' => 'Petición no válida']);
-    exit; // Terminar ejecución del script
+
+} catch (PDOException $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Error en la base de datos: ' . $e->getMessage()]);
+    exit;
 }
-// Cierre del bloque PHP
 ?>
